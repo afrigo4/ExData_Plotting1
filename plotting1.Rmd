@@ -23,11 +23,38 @@ hist(data1$Global_active_power, col = "red", main = "Global Active Power", xlab 
 
 data1$Date <- as.Date(data1$Date, format = "%d/%m/%Y")
 data1$Time <- strptime(data1$Time, format = "%H:%M:%S")
-data1$Time[data1$Date == "2007-02-01"] <- "2007-02-01 %H:%M:%S"
-data1$Time[data1$Date == "2007-02-02"] <- "2007-02-02 %H:%M:%S"
+data1[1:1440, "Time"] <- format(data1[1:1440, "Time"], "2007-02-01 %H:%M:%S")
+data1[1441:2880, "Time"] <- format(data1[1441:2880, "Time"], "2007-02-02 %H:%M:%S")
 
+plot(data1$Time, data1$Global_active_power, type = "l", ylab = "Global Active Power (kilowatts)", main = "Global Active Power Vs Time", xlab = "")
 
 ```
 
+##Plot 3
 
+```{r plot3, echo=FALSE, eval=TRUE}
+
+plot(data1$Time, data1$Sub_metering_1, type = "n", xlab = "", ylab = "Energy sub metering", main = "Energy sub-metering")
+with(data1, lines(Time, as.numeric(as.character(Sub_metering_1))))
+with(data1,lines(Time, as.numeric(as.character(Sub_metering_2)), col="orangered"))
+with(data1,lines(Time, as.numeric(as.character(Sub_metering_3)), col="blue"))
+legend("topright", lty = 1, col = c("black", "red", "blue"), legend = c("Sub_metering_1", "Sub_metering_2", "Sub_metering_3"))
+
+```
+
+##Plot 4
+
+```{r plot4, echo=FALSE, eval=TRUE}
+
+par(mfrow = c(2,2))
+plot(data1$Time, data1$Global_active_power, type = "l", xlab = "", ylab = "Global Active Power")
+plot(data1$Time, data1$Voltage, type = "l", xlab = "datetime", ylab = "Voltage")
+plot(data1$Time, data1$Sub_metering_1, type="n", xlab = "", ylab = "Energy sub metering")
+   with(data1, lines(Time,as.numeric(as.character(Sub_metering_1))))
+   with(data1, lines(Time,as.numeric(as.character(Sub_metering_2)),col="orangered"))
+   with(data1, lines(Time,as.numeric(as.character(Sub_metering_3)),col="blue"))
+legend("topright", lty = 1, col = c("black", "red", "blue"), legend = c("Sub_metering_1", "Sub_metering_2", "Sub_metering_3"),  cex = 0.6)
+plot(data1$Time, data1$Global_reactive_power, type = "l", xlab = "datetime", ylab = "Global_reactive_power")
+
+```
 
